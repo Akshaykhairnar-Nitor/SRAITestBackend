@@ -18,7 +18,7 @@ namespace EmployeeManagement.BAL
         SqlConnection myConnection = new SqlConnection("server=(localdb)\\SRAIAssignmentEmployeeDB;database=EmployeeManagement;Trusted_Connection=true");
         DataTable resultTbl = new DataTable();
         
-        public List<EmployeeDetailsResponse> GetEmployeeDetails(int UserId)        {
+        public List<EmployeeDetailsResponse> GetEmployeeDetails(int UserId){
             List<EmployeeDetailsResponse> response;
             try
             {

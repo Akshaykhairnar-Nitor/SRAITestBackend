@@ -49,7 +49,10 @@ namespace EmployeeManagement.Controllers
                         signingCredentials: signinCredentials
                     );
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                    return Ok(new { Status="OK",Token = tokenString ,UserName= loginDetails.UserName, UserId= loginDetails.UserId });
+                    return Ok(new { Status="OK",
+                                    Token = tokenString ,
+                                    UserName= loginDetails.UserName, 
+                                    UserId= loginDetails.UserId });
                 }
                 else
                 {

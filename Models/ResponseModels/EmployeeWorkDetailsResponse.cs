@@ -8,7 +8,7 @@ namespace EmployeeManagement.Models.ResponseModels
     public class EmployeeWorkDetailsResponse
     {
         public int EMPTimesheetId { get; set; }
-        //public Date Date { get; set; }
+        public DateTime Date { get; set; }
         public string ProjectName { get; set; }
         public string TaskDetails { get; set; }
         public string Time { get; set; }

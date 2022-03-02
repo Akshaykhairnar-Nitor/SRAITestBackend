@@ -16,6 +16,8 @@ namespace EmployeeManagement.Models.ResponseModels
         public string Desiganation { get; set; }
         public int EmpProjectId { get; set; }
         public string ProjectName { get; set; }
-        //public DateTime Project_StartDate { get; set; }
+        public DateTime Project_StartDate { get; set; }
+        public string ProjectDescription { get; set; }
+        public string ProjectManager { get; set; }
     }
 }

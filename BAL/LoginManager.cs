@@ -35,7 +35,14 @@ namespace EmployeeManagement.Manager
                     DAdapter.SelectCommand = sqlCmd;
                     DAdapter.Fill(resultTbl);
                     response = DataTableToListConverter.ConvertDataTable<LoginResponseModel>(resultTbl);
-                    //Result = (resultTbl > 0) ? true : false;
+                    if (response != null && response.Count > 0)
+                    {
+                        return response.FirstOrDefault();
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -46,15 +53,6 @@ namespace EmployeeManagement.Manager
             finally
             {
                 myConnection.Close();
-            }
-
-            if (response != null && response.Count > 0)
-            {
-                return response.FirstOrDefault();
-            }
-            else
-            {
-                return null;
             }
         }
     }
