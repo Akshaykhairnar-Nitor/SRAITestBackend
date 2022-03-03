@@ -7,12 +7,13 @@ namespace EmployeeManagement.Models.ResponseModels
 {
     public class LoginResponseModel
     {
-        //public bool Successful { get; set; }
         public string Mobile { get; set; }
 
         public string UserName { get; set; }
 
         public int UserId { get; set; }
-        //public string Token { get; set; }
+
+        public int EmpId { get; set; }
+
     }
 }

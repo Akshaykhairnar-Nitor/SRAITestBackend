@@ -52,7 +52,9 @@ namespace EmployeeManagement.Controllers
                     return Ok(new { Status="OK",
                                     Token = tokenString ,
                                     UserName= loginDetails.UserName, 
-                                    UserId= loginDetails.UserId });
+                                    UserId= loginDetails.UserId,
+                                    EmpId = loginDetails.EmpId
+                    });
                 }
                 else
                 {
