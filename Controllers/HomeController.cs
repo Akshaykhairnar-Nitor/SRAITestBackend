@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.BAL;
 using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Controllers
 {
+    [Authorize]
     [Route("api/")]
     [ApiController]
     [EnableCors("AllowOrigin")]

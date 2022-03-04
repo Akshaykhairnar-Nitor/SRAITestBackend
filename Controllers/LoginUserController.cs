@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using EmployeeManagement.Manager;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,6 +30,7 @@ namespace EmployeeManagement.Controllers
         [Route("login")]
         public IActionResult Login([FromBody] LoginModel user)
         {
+            
             LoginManager loginManager = new LoginManager();
             if (user == null)
             {
@@ -39,11 +41,11 @@ namespace EmployeeManagement.Controllers
                var loginDetails =  loginManager.ValidateUser(user);
                 if (loginDetails != null )
                 {
-                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisismySecretKey"));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                     var tokeOptions = new JwtSecurityToken(
-                        //issuer: "http://localhost:5000",
-                        //audience: "http://localhost:5000",
+                        issuer: "https://localhost:5001/",
+                        audience: "https://localhost:5001/",
                         claims: new List<Claim>(),
                         expires: DateTime.Now.AddMinutes(5),
                         signingCredentials: signinCredentials
