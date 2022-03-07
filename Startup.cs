@@ -13,6 +13,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
+using EmployeeManagement.Interfaces;
+using EmployeeManagement.Manager;
+using EmployeeManagement.Repository;
+using EmployeeManagement.Interfaces.EmployeeInterfaces;
+using EmployeeManagement.BAL;
 
 namespace EmployeeManagement
 {
@@ -32,6 +37,12 @@ namespace EmployeeManagement
         {
             
             services.AddControllersWithViews();
+
+            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<ILoginManager, LoginManager>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeeManager,EmployeeManager>();
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo

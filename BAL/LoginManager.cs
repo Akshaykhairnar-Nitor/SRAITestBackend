@@ -8,52 +8,21 @@ using EmployeeManagement.BAL.Common;
 
 using Newtonsoft.Json.Linq;
 using EmployeeManagement.Models.ResponseModels;
+using EmployeeManagement.Interfaces;
 
 namespace EmployeeManagement.Manager
 {
-    public class LoginManager
+    public class LoginManager: ILoginManager
     {
-        public JObject requestModel = null;
+        public ILoginRepository _loginRepository { get; set; }
+        public LoginManager(ILoginRepository loginRepository)
+        {
+            _loginRepository = loginRepository;
+        }
 
         public LoginResponseModel ValidateUser(LoginModel request)
         {
-            SqlConnection myConnection = new SqlConnection("server=(localdb)\\SRAIAssignmentEmployeeDB;database=EmployeeManagement;Trusted_Connection=true");
-            DataTable  resultTbl = new DataTable();
-            List<LoginResponseModel> response;
-            try
-            {
-               LoginResponseModel loginResponseModel = new LoginResponseModel();
-
-                using (SqlCommand sqlCmd = new SqlCommand("", myConnection))
-                {
-                    myConnection.Open();
-                    SqlDataAdapter DAdapter = new SqlDataAdapter();
-                    sqlCmd.CommandText = StoreProcedureNames.SELECT_UserLogin; 
-                    sqlCmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlCmd.Parameters.AddWithValue("@UserName", request.UserName).ToString();
-                    sqlCmd.Parameters.AddWithValue("@Password", request.Password).ToString();
-                    DAdapter.SelectCommand = sqlCmd;
-                    DAdapter.Fill(resultTbl);
-                    response = DataTableToListConverter.ConvertDataTable<LoginResponseModel>(resultTbl);
-                    if (response != null && response.Count > 0)
-                    {
-                        return response.FirstOrDefault();
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                myConnection.Close();
-                return null;
-            }
-            finally
-            {
-                myConnection.Close();
-            }
+            return _loginRepository.ValidateUser(request);
         }
     }
 }

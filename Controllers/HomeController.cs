@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.BAL;
+using EmployeeManagement.Interfaces.EmployeeInterfaces;
 using EmployeeManagement.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -17,13 +18,18 @@ namespace EmployeeManagement.Controllers
     [EnableCors("AllowOrigin")]
     public class HomeController : ControllerBase
     {
-        
+        public IEmployeeManager _employeeManager { get; set; }
+
+        public HomeController(IEmployeeManager employeeManager)
+        {
+            _employeeManager = employeeManager;
+        }
+
         [HttpGet]
         [Route("GetUserDetails/UserId")]
         public IActionResult GetUserDetails(int UserId)
         {
-            EmployeeManager employeeManager = new EmployeeManager();
-            var EmpDetails = employeeManager.GetEmployeeDetails(UserId);
+            var EmpDetails = _employeeManager.GetEmployeeDetails(UserId);
             return Ok(EmpDetails);
         }
 
@@ -31,8 +37,7 @@ namespace EmployeeManagement.Controllers
         [Route("GetEmployeeWorkDetails/EmpId")]
         public IActionResult GetEmployeeWorkDetails(int EmpId)
         {
-            EmployeeManager employeeManager = new EmployeeManager();
-            var EmpWorkDetails = employeeManager.GetEmployeeWorkDetails(EmpId);
+            var EmpWorkDetails = _employeeManager.GetEmployeeWorkDetails(EmpId);
             return Ok(EmpWorkDetails);
         }
 

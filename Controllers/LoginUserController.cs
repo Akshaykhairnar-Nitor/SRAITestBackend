@@ -14,6 +14,7 @@ using System.Text;
 using EmployeeManagement.Manager;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
+using EmployeeManagement.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,19 +27,24 @@ namespace EmployeeManagement.Controllers
 
     public class LoginUserController : ControllerBase
     {
+        public ILoginManager _loginManager { get; set; }
+
+        public LoginUserController(ILoginManager loginManager)
+        {
+            _loginManager = loginManager;
+        }
+
         [HttpPost]
         [Route("login")]
         public IActionResult Login([FromBody] LoginModel user)
         {
-            
-            LoginManager loginManager = new LoginManager();
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
             else
             {
-               var loginDetails =  loginManager.ValidateUser(user);
+                var loginDetails =  _loginManager.ValidateUser(user);
                 if (loginDetails != null )
                 {
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisismySecretKey"));
