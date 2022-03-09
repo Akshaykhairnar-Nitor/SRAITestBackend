@@ -8,7 +8,7 @@ namespace EmployeeManagement.Interfaces.EmployeeInterfaces
 {
   public  interface IEmployeeRepository
     {
-        List<EmployeeDetailsResponse> GetEmployeeDetails(int UserId);
+        List<EmployeeDetailsResponse> GetEmployeeDetails(string username);
 
         List<EmployeeWorkDetailsResponse> GetEmployeeWorkDetails(int EmpId);
 

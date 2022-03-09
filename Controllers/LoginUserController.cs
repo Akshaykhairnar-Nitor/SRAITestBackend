@@ -34,43 +34,43 @@ namespace EmployeeManagement.Controllers
             _loginManager = loginManager;
         }
 
-        [HttpPost]
-        [Route("login")]
-        public IActionResult Login([FromBody] LoginModel user)
-        {
-            if (user == null)
-            {
-                return BadRequest("Invalid client request");
-            }
-            else
-            {
-                var loginDetails =  _loginManager.ValidateUser(user);
-                if (loginDetails != null )
-                {
-                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisismySecretKey"));
-                    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                    var tokeOptions = new JwtSecurityToken(
-                        issuer: "https://localhost:5001/",
-                        audience: "https://localhost:5001/",
-                        claims: new List<Claim>(),
-                        expires: DateTime.Now.AddMinutes(5),
-                        signingCredentials: signinCredentials
-                    );
-                    var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                    return Ok(new { Status="OK",
-                                    Token = tokenString ,
-                                    UserName= loginDetails.UserName, 
-                                    UserId= loginDetails.UserId,
-                                    EmpId = loginDetails.EmpId
-                    });
-                }
-                else
-                {
-                    // return Unauthorized();
-                    return Ok(new { Status = "Failed"});
-                }
-            }
+        //[HttpPost]
+        //[Route("login")]
+        //public IActionResult Login([FromBody] LoginModel user)
+        //{
+        //    if (user == null)
+        //    {
+        //        return BadRequest("Invalid client request");
+        //    }
+        //    else
+        //    {
+        //        var loginDetails =  _loginManager.ValidateUser(user);
+        //        if (loginDetails != null )
+        //        {
+        //            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisismySecretKey"));
+        //            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        //            var tokeOptions = new JwtSecurityToken(
+        //                issuer: "https://localhost:5001/",
+        //                audience: "https://localhost:5001/",
+        //                claims: new List<Claim>(),
+        //                expires: DateTime.Now.AddMinutes(5),
+        //                signingCredentials: signinCredentials
+        //            );
+        //            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+        //            return Ok(new { Status="OK",
+        //                            Token = tokenString ,
+        //                            UserName= loginDetails.UserName, 
+        //                            UserId= loginDetails.UserId,
+        //                            EmpId = loginDetails.EmpId
+        //            });
+        //        }
+        //        else
+        //        {
+        //            // return Unauthorized();
+        //            return Ok(new { Status = "Failed"});
+        //        }
+        //    }
 
-        }
+        //}
     }
 }

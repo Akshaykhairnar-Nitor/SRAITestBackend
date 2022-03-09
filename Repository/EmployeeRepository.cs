@@ -21,7 +21,7 @@ namespace EmployeeManagement.Repository
             _connectionString = "server=(localdb)\\SRAIAssignmentEmployeeDB;database=EmployeeManagement;Trusted_Connection=true";
         }
 
-        public List<EmployeeDetailsResponse> GetEmployeeDetails(int UserId)
+        public List<EmployeeDetailsResponse> GetEmployeeDetails(string username)
         {
             List<EmployeeDetailsResponse> response;
             DataTable resultTbl = new DataTable();
@@ -37,7 +37,7 @@ namespace EmployeeManagement.Repository
                     SqlDataAdapter DAdapter = new SqlDataAdapter();
                     sqlCmd.CommandText = StoreProcedureNames.SELECT_EmployeeDetails;
                     sqlCmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlCmd.Parameters.AddWithValue("@UserId", UserId).ToString();
+                    sqlCmd.Parameters.AddWithValue("@UserName", username).ToString();
                     DAdapter.SelectCommand = sqlCmd;
                     DAdapter.Fill(resultTbl);
                     response = DataTableToListConverter.ConvertDataTable<EmployeeDetailsResponse>(resultTbl);

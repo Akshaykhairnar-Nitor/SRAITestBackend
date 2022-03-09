@@ -21,9 +21,9 @@ namespace EmployeeManagement.BAL
             _employeeRepository = loginRepository;
         }
 
-        public List<EmployeeDetailsResponse> GetEmployeeDetails(int UserId)
+        public List<EmployeeDetailsResponse> GetEmployeeDetails(string username)
         {
-            return _employeeRepository.GetEmployeeDetails(UserId);
+            return _employeeRepository.GetEmployeeDetails(username);
         }
 
         public List<EmployeeWorkDetailsResponse> GetEmployeeWorkDetails(int EmpId)

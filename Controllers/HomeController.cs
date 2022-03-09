@@ -26,10 +26,10 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserDetails/UserId")]
-        public IActionResult GetUserDetails(int UserId)
+        [Route("GetUserDetails/UserName")]
+        public IActionResult GetUserDetails(string username)
         {
-            var EmpDetails = _employeeManager.GetEmployeeDetails(UserId);
+            var EmpDetails = _employeeManager.GetEmployeeDetails(username);
             return Ok(EmpDetails);
         }
 

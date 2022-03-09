@@ -18,6 +18,8 @@ using EmployeeManagement.Manager;
 using EmployeeManagement.Repository;
 using EmployeeManagement.Interfaces.EmployeeInterfaces;
 using EmployeeManagement.BAL;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication;
 
 namespace EmployeeManagement
 {
@@ -43,55 +45,63 @@ namespace EmployeeManagement
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEmployeeManager,EmployeeManager>();
 
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "API",
-                    Version = "v2",
-                    Description = "Your Api Description"
-                });
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-            });
+            //services.AddSwaggerGen(options =>
+            //{
+            //    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            //    {
+            //        Title = "API",
+            //        Version = "v2",
+            //        Description = "Your Api Description"
+            //    });
 
-            services.AddCors(c => { c.AddPolicy(name: "AllowOrigin", builder => { builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod(); }); });
-            
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-              .AddJwtBearer(options =>
-              {
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateLifetime = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = Configuration["Jwt:Issuer"],
-                      ValidAudience = Configuration["Jwt:Issuer"],
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisismySecretKey"))
-                  };
-              });
+            //    //options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            //    //{
+            //    //    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+            //    //    Name = "Authorization",
+            //    //    In = ParameterLocation.Header,
+            //    //    Type = SecuritySchemeType.ApiKey,
+            //    //    Scheme = "Bearer"
+            //    //    });
+            //    //options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+            //    //{
+            //    //    new OpenApiSecurityScheme
+            //    //        {
+            //    //           Reference = new OpenApiReference
+            //    //              {
+            //    //                    Type = ReferenceType.SecurityScheme,
+            //    //                    Id = "Bearer"
+            //    //               }
+            //    //        },
+            //    //    Array.Empty<string>()
+            //    //}
+            //   });
+            //});
+           
 
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //  .AddJwtBearer(options =>
+            //  {
+            //      options.TokenValidationParameters = new TokenValidationParameters
+            //      {
+            //          ValidateIssuer = true,
+            //          ValidateAudience = true,
+            //          ValidateLifetime = true,
+            //          ValidateIssuerSigningKey = true,
+            //          ValidIssuer = Configuration["Jwt:Issuer"],
+            //          ValidAudience = Configuration["Jwt:Issuer"],
+            //          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisismySecretKey"))
+            //      };
+            //  });
+            services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme).AddAzureADBearer(options => Configuration.Bind("AzureActiveDirectory", options));
+
+            string corsDomains = "http://localhost:4200";
+            string[] domains = corsDomains.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            services.AddCors(c => {
+                c.AddPolicy(name: "AllowOrigin", builder => {
+                    builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().WithOrigins(domains);
+                });
+            });
             services.AddControllers();
         }
 
@@ -117,16 +127,16 @@ namespace EmployeeManagement
             {
                 endpoints.MapControllers();
             });
-            app.UseSwagger(c =>
-            {
-                c.SerializeAsV2 = true;
-            });
+            //app.UseSwagger(c =>
+            //{
+            //    c.SerializeAsV2 = true;
+            //});
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
-            });
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            //    c.RoutePrefix = string.Empty;
+            //});
           
         }
     }
