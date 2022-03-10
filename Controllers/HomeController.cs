@@ -4,6 +4,7 @@ using EmployeeManagement.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Controllers
 {
-    [Authorize]
     [Route("api/")]
     [ApiController]
     [EnableCors("AllowOrigin")]
@@ -26,6 +26,8 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Employee")]
+
         [Route("GetUserDetails/UserName")]
         public IActionResult GetUserDetails(string username)
         {
@@ -34,6 +36,8 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         [Route("GetEmployeeWorkDetails/EmpId")]
         public IActionResult GetEmployeeWorkDetails(int EmpId)
         {

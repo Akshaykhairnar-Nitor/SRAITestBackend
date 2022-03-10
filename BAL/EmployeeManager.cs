@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using EmployeeManagement.Models;
 using EmployeeManagement.BAL.Common;
 
-using Newtonsoft.Json.Linq;
 using EmployeeManagement.Models.ResponseModels;
 using EmployeeManagement.Interfaces.EmployeeInterfaces;
 
